@@ -3,7 +3,8 @@ const express = require('express');
 const app=express();
 //Request handler
 //This will only handle GET call to user
-app.get("/user",(req,res)=>{
+app.get("/user/:userId/:name/:password",(req,res)=>{
+    console.log(req.query)
     res.send({firstName:"Reka",lastName:"Mari"})
 });
 app.post("/user",(req,res)=>{
@@ -12,6 +13,8 @@ app.post("/user",(req,res)=>{
 app.delete("/user",(req,res)=>{
     res.send("Detled successfully ")
 });
+
+
 //This will match all the HTTP method API calls to /test
 app.use("/test",(req,res)=>{
     res.send("Hello from the server - test")
