@@ -3,23 +3,32 @@ const express = require('express');
 const app=express();
 //Request handler
 //This will only handle GET call to user
-app.get("/user/:userId/:name/:password",(req,res)=>{
-    console.log(req.query)
-    res.send({firstName:"Reka",lastName:"Mari"})
-});
-app.post("/user",(req,res)=>{
-    res.send("Data successfully saved to the database")
-});
-app.delete("/user",(req,res)=>{
-    res.send("Detled successfully ")
-});
-
-
-//This will match all the HTTP method API calls to /test
-app.use("/test",(req,res)=>{
-    res.send("Hello from the server - test")
-})
-
+app.use("/user",[
+    (req,res,next)=>{
+        //Route handler   
+        console.log("Handling the route user!");
+        //res.send("Response !!") 
+        next();
+    },
+    (req,res,next)=>{
+        //Route handler 2
+        console.log(" Handling the route user 2")
+      //  res.send("Response 2")
+        next();
+    },
+     (req,res,next)=>{
+        //Route handler 2
+        console.log(" Handling the route user 3")
+        // res.send("Response 3")
+          next();
+    },
+     (req,res)=>{
+        //Route handler 4
+        console.log(" Handling the route user 4")
+        res.send("Response 4")
+    }
+    
+])
 
 app.listen(3000,()=>{
     console.log("server is successfully listening on port  3000")
