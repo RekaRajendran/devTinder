@@ -1,36 +1,22 @@
 const express = require('express');
 
 const app=express();
-//Request handler
-//This will only handle GET call to user
-//app.use("routhe",rH1,rH2,rH3,rH4)
-app.use("/user",[
-    (req,res,next)=>{
-        //Route handler   
-        console.log("Handling the route user!");
-        //res.send("Response !!") 
-        next();
-    },
-    (req,res,next)=>{
-        //Route handler 2
-        console.log(" Handling the route user 2")
-      //  res.send("Response 2")
-        next();
-    },
-     (req,res,next)=>{
-        //Route handler 2
-        console.log(" Handling the route user 3")
-        // res.send("Response 3")
-          next();
-    },
-     (req,res,next)=>{
-        //Route handler 4
-        console.log(" Handling the route user 4")
-       res.send("Response 4")
-    //    next();
-    }
-    
-])
+const {adminAuth,userAuth}=require("./middlewares/auth");
+//Handle Auth Middleware for all GET, POST, ...requests
+app.post("/user/login",userAuth,(req,res)=>{
+    res.send("User logged in successfully")
+})
+app.get("/user/getdata",userAuth,(req,res)=>{
+    res.send("User Data sent")
+}) 
+app.use("/admin",adminAuth) 
+app.get("/admin/getAllData",(req,res)=>{
+    // const token=req.boby?.token;
+     res.send("All data sent")      
+})
+app.get("/admin/deleteUser",(req,res)=>{   
+     res.send("Deleted a user")   
+})
 
 app.listen(3000,()=>{
     console.log("server is successfully listening on port  3000")
