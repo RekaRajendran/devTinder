@@ -72,8 +72,9 @@ app.patch("/user",async(req,res)=>{
   const emailId=req.body.emailId;
   const data=req.body;
   try{
-    //const user =await User.findByIdAndUpdate({_id:userId},data,{returnDocument:'before'});
-    const user =await User.findOneAndUpdate({emailId:emailId},data,{returnDocument:'before'});
+    const user =await User.findByIdAndUpdate({_id:userId},data,
+      {returnDocument:'before',runValidators:true});
+    //const user =await User.findOneAndUpdate({emailId:emailId},data,{returnDocument:'before'});
     console.log(user);
     res.send("User updated successfully")
   }catch(err){
@@ -92,4 +93,3 @@ connectDB().then(()=>{
     })
 
 
-    
