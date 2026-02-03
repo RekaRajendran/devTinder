@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const validator=require("validator");
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -17,11 +17,27 @@ const userSchema = new mongoose.Schema({
     required:true,
     unique:true,
     trim:true,
-    lowercase:true
+    lowercase:true,
+     validate(value){
+      if(!validator.isEmail(value)){
+        throw new Error("Invalid email address:"+value)
+      }
+     }
   },
   password: {
     type: String,
-    required:true
+    required:true,
+    validate(value){
+      if(!validator.isStrongPassword(value,{
+        minLength:8,
+        minLowercase:1,
+        minUppercase:1,
+        minNumbers:1,
+        minSymbols:1
+      })){
+        throw new Error("Password is not strong enough")
+      }
+    }
   },
   age: {
     type: Number,
@@ -38,6 +54,11 @@ const userSchema = new mongoose.Schema({
   photoUrl:{
     type:String,
     default:"https://toppng.com//public/uploads/preview/donna-picarro-dummy-avatar-115633298255iautrofxa.png",
+     validate(value){
+      if(!validator.isURL(value)){
+        throw new Error("Invalid photo URL:"+value)
+      }
+     }
   },
   about:{
     type:String,
